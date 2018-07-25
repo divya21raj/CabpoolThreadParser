@@ -45,7 +45,10 @@ def parse():
     phone = ""
         
     for line in content:
-        if "to" in line.replace(" ", "").lower().split(delim):
+        if line.startswith("On") or line.startswith(">"): #skipping reply text
+            continue
+        
+        elif "to" in line.replace(" ", "").lower().split(delim):
             destination = getValue(line, delim, "to")
             print "Destination = " + destination
 
@@ -68,16 +71,16 @@ def parse():
                 print "Phone = " + phone
 
 
-    mailJson = {}
-    mailJson['phone'] = phone
-    mailJson['destination'] = {'latitide': 0, 'longitude': 0, 'name': destination}
-    mailJson['source'] = {'latitide': 0, 'longitude': 0, 'name': source}
-    mailJson['time'] = time
-    mailJson['date'] = date
-    mailJson['notFromApp'] = 'true'
+    mailMap = {}
+    mailMap['phone'] = phone
+    mailMap['destination'] = {'latitude': 0, 'longitude': 0, 'name': destination}
+    mailMap['source'] = {'latitude': 0, 'longitude': 0, 'name': source}
+    mailMap['time'] = time
+    mailMap['date'] = date
+    mailMap['notFromApp'] = True
 
     dirPath = os.path.dirname(os.path.realpath(__file__))
 
-    writeToJSONFile(dirPath,'mail',mailJson)
+    writeToJSONFile(dirPath,'mail',mailMap)
         
-    return mailJson
+    return mailMap

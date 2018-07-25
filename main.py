@@ -1,12 +1,29 @@
 from mailParser import parse
-import firebaseInteractions
+from mailFetcher import getRecentMail
+
+from firebaseInteractions import pushMap
 
 import sys
 import os
+import email
 import time
 from threading import Thread, Event
 
 import imaplib2
+
+def parseAndPush(mailMap):
+    #write body to data.txt
+    with open("data.txt", "w") as text_file:
+        text_file.write(mailMap.get('body'))
+
+    parsedMap = parse()
+
+    finalMailMap = dict(mailMap)
+    finalMailMap.update(parsedMap)
+    finalMailMap.pop('body')
+
+    print finalMailMap
+    pushMap(finalMailMap)
 
 
 # This is the threading object that does all the waiting on 
@@ -62,8 +79,12 @@ class Idler(object):
     # Replace it with something better.
     def dosync(self):
         print "Got an event!"
-        res = self.M.recent()
-        print res
+        mailMap = getRecentMail(self.M)
+
+        if mailMap: #i.e is not empty, i.e from MEGA CT
+            print "Is Mega!"
+            parseAndPush(mailMap)
+
 
 
 #MAIN:
@@ -82,12 +103,15 @@ try:
     # Start the Idler thread
     idler = Idler(M)
     idler.start()
-    # Because this is just an example, exit after 1 minute.
-    time.sleep(1*60)
+    
+    #exit after 60 minutes
+    time.sleep(59*60)
+
 finally:
     # Clean up.
     idler.stop()
     idler.join()
     M.close()
+
     # This is important!
     M.logout()
