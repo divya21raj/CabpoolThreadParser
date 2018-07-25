@@ -1,0 +1,6 @@
+mail.json
+google-services.json
+data.txt
+*.pyc
+.vscode
+*.env
