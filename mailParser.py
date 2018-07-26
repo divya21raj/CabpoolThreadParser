@@ -2,6 +2,8 @@ import re
 import json
 import os
 
+from jsonHelper import writeToJSONFile
+
 
 def getDelim(content):
     hyphenCount = 0
@@ -30,10 +32,7 @@ def getValue(line, delim, key):
         word = word.strip()
         if word.lower() != key: return word
 
-def writeToJSONFile(path, fileName, data):
-    filePathNameWExt = fileName + '.json'
-    with open(filePathNameWExt, 'w+') as fp:
-        json.dump(data, fp)
+
 
 def parse():
     with open("data.txt") as file:
@@ -79,8 +78,6 @@ def parse():
     mailMap['date'] = date
     mailMap['notFromApp'] = True
 
-    dirPath = os.path.dirname(os.path.realpath(__file__))
-
-    writeToJSONFile(dirPath,'mail',mailMap)
+    writeToJSONFile('mail',mailMap)
         
     return mailMap

@@ -1,4 +1,7 @@
 import email
+import json
+
+from jsonHelper import checkNew
 
 
 def getRecentMail(M):
@@ -27,10 +30,11 @@ def getRecentMail(M):
                 varFromName = varFrom.split("<")[0].strip().replace("\"", "")
                 varFromId = varFrom.split("<")[1].replace(">", "").strip()
 
-                bodytext=msg.get_payload()[0].get_payload()
-                if type(bodytext) is list:
-                    bodytext=','.join(str(v) for v in bodytext)
-
+                if(checkNew(varFromId)):
+                    bodytext=msg.get_payload()[0].get_payload()
+                    if type(bodytext) is list:
+                        bodytext=','.join(str(v) for v in bodytext)
+                else: return mailMap
        
         #add ellipsis (...) if subject length is greater than 35 characters
         if len( varSubject ) > 35:
