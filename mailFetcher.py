@@ -1,7 +1,7 @@
 import email
 import json
 
-from jsonHelper import checkNew
+from fileHelper import checkNew
 
 
 def getRecentMail(M):

@@ -2,7 +2,7 @@ import re
 import json
 import os
 
-from jsonHelper import writeToJSONFile
+from fileHelper import writeToJSONFile
 
 
 def getDelim(content):
