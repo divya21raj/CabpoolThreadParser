@@ -96,10 +96,11 @@ try:
     M = imaplib2.IMAP4_SSL("imap.gmail.com")
 
     M.login(os.environ.get('SNU_USER_ID', ''), os.environ.get('SNU_PWD', ''))
-
-    # We need to get out of the AUTH state, so we just select 
-    # the INBOX.
-    M.select("INBOX")
+   
+    typ, data = M.select('Mega Cabpool Thread')
+    print "Entered MCT Label"
+    print typ, data
+    
     # Start the Idler thread
     idler = Idler(M)
     idler.start()
