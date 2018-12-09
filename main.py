@@ -12,7 +12,7 @@ from threading import Thread, Event
 import imaplib2
 
 def parseAndPush(mailMap):
-    #write body to data.txt
+    # write body to data.txt
     with open("data.txt", "w") as text_file:
         text_file.write(mailMap.get('body'))
 
@@ -76,7 +76,6 @@ class Idler(object):
                 self.dosync()
  
     # The method that gets called when a new email arrives. 
-    # Replace it with something better.
     def dosync(self):
         print "Got an event!"
         mailMap = getRecentMail(self.M)
@@ -104,6 +103,7 @@ try:
     # Start the Idler thread
     idler = Idler(M)
     idler.start()
+    idler.dosync()
     
     #exit after 60 minutes
     time.sleep(59*60)

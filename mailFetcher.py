@@ -36,11 +36,11 @@ def getRecentMail(M):
                         bodytext=','.join(str(v) for v in bodytext)
                 else: return mailMap
        
-        #add ellipsis (...) if subject length is greater than 35 characters
+        # add ellipsis (...) if subject length is greater than 35 characters
         if len( varSubject ) > 35:
             varSubject = varSubject[0:32] + '...'
 
-        if "MEGA" in varSubject :
+        if "cab" in varSubject.lower() :
             print '[' + varFromName + '...' + varFromId+ '] ' + varSubject + '\n' + bodytext
             
             mailMap['name'] = varFromName

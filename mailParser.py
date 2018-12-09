@@ -42,8 +42,14 @@ def parse():
     print delim
 
     phone = ""
+    date = ""
+    time = ""
+    destination = ""
+    source = ""
         
     for line in content:
+        print line.replace(" ", "").lower()
+        
         if line.startswith("On") or line.startswith(">"): #skipping reply text
             continue
         
